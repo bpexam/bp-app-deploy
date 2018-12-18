@@ -6,6 +6,7 @@ import time
 s3FilePath = 'https://s3.eu-central-1.amazonaws.com/devops-exercise/pandapics.tar.gz'
 imageFolder = './public/images'
 healthCheckUrl = 'http://localhost:3000/health'
+warmUptime = 15 #This value might need tweak on slow connection to retrive the images
 
 def getImages(s3FilePath,imageFolder):
     print('Beginning image download from S3')
@@ -44,7 +45,7 @@ print "Starting deployment procedure"
 getImages(s3FilePath,imageFolder)
 print "Starting Docker containers"
 os.system('docker-compose up -d')
-print "Waiting for container warmup ( 5 seconds)"
-time.sleep(5)
+print "Waiting for container warmup ( " + str(warmUptime) + "seconds)"
+time.sleep(warmUptime)
 print "Checking container health"
 healthCheck(healthCheckUrl)
